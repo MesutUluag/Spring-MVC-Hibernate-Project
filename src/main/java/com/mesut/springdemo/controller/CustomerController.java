@@ -76,6 +76,11 @@ public class CustomerController {
 		
 		return "redirect:/customer/list";
 	}
+
+	@GetMapping("/managers")
+	public String showManagersPage(){
+		return "managersPage";
+	}
 }
 
 
