@@ -65,6 +65,12 @@
 		<p>
 			<a href="${pageContext.request.contextPath}/customer/list">Back to List</a>
 		</p>
+
+		<br>
+
+		<form:form action="${pageContext.request.contextPath}/logout" method="POST">
+			<input type="submit" value="Logout">
+		</form:form>
 	
 	</div>
 
