@@ -1,6 +1,10 @@
 package com.mesut.springdemo.restControllers;
 
 import com.mesut.springdemo.entity.Student;
+import com.mesut.springdemo.exceptions.StudentNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +43,18 @@ public class StudentRestController {
 
     @RequestMapping("/students/{studentId}")
     public Student getStudent(@PathVariable int studentId){
+        if(students.size()<studentId||studentId<0){
+            throw new StudentNotFoundException("Student Did Not Found " + studentId);
+        }
         return students.get(studentId);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc){
+        StudentErrorResponse error = new StudentErrorResponse();
+        error.setMessage(exc.getMessage());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 }
